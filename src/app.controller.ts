@@ -19,7 +19,9 @@ export class AppController {
 
   @Get('/info/:nm')
   info(@Param('nm') nm: string) {
-    return this.appService.getInfo(nm);
+    // console.log(this.appService.getInfo(nm));
+    return this.appService.getInfo(nm).then((res) => { console.log(res); return res });
+    // return this.appService.getInfo(nm);
   }
 
   // @Get('/shloc/:nm')

@@ -20,33 +20,43 @@ export class AppService {
 
   async getRice(nm: string) {
 
-    const school = await neis.getSchoolInfo({ SCHUL_NM: nm });
-    const mealInfo = await neis.getMealInfo({ ATPT_OFCDC_SC_CODE: school[0].ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE: school[0].SD_SCHUL_CODE, MLSV_YMD: data });
-    
-    const meal = mealInfo.filter(m => m.MMEAL_SC_NM = "중식");
+    try {
+      const school = await neis.getSchoolInfo({ SCHUL_NM: nm });
+      const mealInfo = await neis.getMealInfo({ ATPT_OFCDC_SC_CODE: school[0].ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE: school[0].SD_SCHUL_CODE, MLSV_YMD: data });
+      
+      const meal = mealInfo.filter(m => m.MMEAL_SC_NM = "중식");
+      
+      return meal[0];
+    } catch {
+      return null;
+    }
    
-    return meal[0];
   }
 
-  async getSchoolLocation ( nm: string ) {
+  // async getSchoolLocation ( nm: string ) {
 
-    const url = 'http://api.data.go.kr/openapi/tn_pubr_public_elesch_mskul_lc_api';
-    let queryParams = '?' + encodeURIComponent('serviceKey') + '=PfTq%2BIyhkxvmLxTT8XCN5ojf9jxlsaFOgfAOppxXMbTJl%2FM4HDhFhksFFQNCrsWokHfuzqtGlxWUDc93x%2FVJYQ%3D%3D';  // Service Key
-    queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('json');  // type
-    // queryParams += '&' + encodeURIComponent('cddcCode') + '=' + encodeURIComponent('8750000');  // 시도교육청코드
-    // queryParams += '&' + encodeURIComponent('rdnmadr') + '=' + encodeURIComponent('경상북도 포항시 남구 지곡로 150');  // 소재지도로명주소
-    queryParams += '&' + encodeURIComponent('schoolNm') + '=' + encodeURIComponent(nm);  // school name
-    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent(1);
-    // queryParams += '&' + encodeURIComponent('schoolSe') + '=' + '중학교';
+  //   const url = 'http://api.data.go.kr/openapi/tn_pubr_public_elesch_mskul_lc_api';
+  //   let queryParams = '?' + encodeURIComponent('serviceKey') + '=PfTq%2BIyhkxvmLxTT8XCN5ojf9jxlsaFOgfAOppxXMbTJl%2FM4HDhFhksFFQNCrsWokHfuzqtGlxWUDc93x%2FVJYQ%3D%3D';  // Service Key
+  //   queryParams += '&' + encodeURIComponent('type') + '=' + encodeURIComponent('json');  // type
+  //   // queryParams += '&' + encodeURIComponent('cddcCode') + '=' + encodeURIComponent('8750000');  // 시도교육청코드
+  //   // queryParams += '&' + encodeURIComponent('rdnmadr') + '=' + encodeURIComponent('경상북도 포항시 남구 지곡로 150');  // 소재지도로명주소
+  //   queryParams += '&' + encodeURIComponent('schoolNm') + '=' + encodeURIComponent(nm);  // school name
+  //   queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent(1);
+  //   // queryParams += '&' + encodeURIComponent('schoolSe') + '=' + '중학교';
     
-    const result = await fetch(url + queryParams).then(async (res) => await res.json());
+  //   const result = await fetch(url + queryParams).then(async (res) => await res.json());
 
-    return result.response.body.items[1];
-  }
+  //   return result.response.body.items[1];
+  // }
 
   async getInfo( nm: string ) {
     const school = await neis.getSchoolInfo({ SCHUL_NM: nm });
 
-    return school;
+    const response = {
+      "school_name": school[0].SCHUL_NM
+    }
+    // console.log(school)
+
+    return school[0];
   }
 }
