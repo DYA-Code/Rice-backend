@@ -52,11 +52,6 @@ export class AppService {
   async getInfo( nm: string ) {
     const school = await neis.getSchoolInfo({ SCHUL_NM: nm });
 
-    const response = {
-      "school_name": school[0].SCHUL_NM
-    }
-    // console.log(school)
-
     return school[0];
   }
 }
