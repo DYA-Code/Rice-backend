@@ -24,11 +24,12 @@ export class AppService {
       const school = await neis.getSchoolInfo({ SCHUL_NM: nm });
       const mealInfo = await neis.getMealInfo({ ATPT_OFCDC_SC_CODE: school[0].ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE: school[0].SD_SCHUL_CODE, MLSV_YMD: data });
       
-      const meal = mealInfo.filter(m => m.MMEAL_SC_NM = "중식");
+      // const meal = mealInfo.filter(m => m.MMEAL_SC_CODE = "2");
+      const meal = mealInfo[1];
       
-      return meal[0];
+      return meal;
     } catch {
-      return null;
+      return 'no';
     }
    
   }
